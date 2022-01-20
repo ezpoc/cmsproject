@@ -4,10 +4,11 @@ import com.cms.cis.entity.ContentPublication;
 import com.cms.cis.service.ContentPublicationService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,4 +24,11 @@ public class ContentPublicationController {
         return publicationService.getAllPublications();
     }
 
+    @PostMapping("/addPublication")
+    public ResponseEntity<?> addPublication(@RequestBody ContentPublication publication){
+        publication.setCreatedAt(LocalDateTime.now());
+        publication.setLastModifiedAt(LocalDateTime.now());
+        ContentPublication savedPublication = publicationService.insertPublication(publication);
+        return new ResponseEntity<>(savedPublication.getId(), HttpStatus.OK);
+    }
 }

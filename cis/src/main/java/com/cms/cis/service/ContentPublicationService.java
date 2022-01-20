@@ -19,6 +19,10 @@ public class ContentPublicationService {
         return publicationRepository.findAll();
     }
 
+    public ContentPublication insertPublication(ContentPublication publication){
+        return publicationRepository.insert(publication);
+    }
+
     public void updateNameSpaceRef(String publicationId, NameSpaces nameSpace){
         Optional<ContentPublication> publication = publicationRepository.findById(publicationId);
         if(publication.isPresent() && nameSpace != null){
